@@ -218,7 +218,7 @@ export default class DoublyLinkedList {
    * @return {DoublyLinkedList}
    */
   fromArray(values) {
-    values.forEach(value => this.append(value));
+    values.forEach((value) => this.append(value));
 
     return this;
   }
@@ -228,7 +228,7 @@ export default class DoublyLinkedList {
    * @return {string}
    */
   toString(callback) {
-    return this.toArray().map(node => node.toString(callback)).toString();
+    return this.toArray().map((node) => node.toString(callback)).toString();
   }
 
   /**
@@ -243,9 +243,11 @@ export default class DoublyLinkedList {
     while (currNode) {
       // Store next node.
       nextNode = currNode.next;
+      prevNode = currNode.previous;
 
       // Change next node of the current node so it would link to previous node.
       currNode.next = prevNode;
+      currNode.previous = nextNode;
 
       // Move prevNode and currNode nodes one step forward.
       prevNode = currNode;

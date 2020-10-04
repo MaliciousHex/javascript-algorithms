@@ -1,5 +1,8 @@
 # Binary Search Tree
 
+_Read this in other languages:_
+[_Português_](README.pt-BR.md)
+
 In computer science, **binary search trees** (BST), sometimes called 
 ordered or sorted binary trees, are a particular type of container: 
 data structures that store "items" (such as numbers, names etc.) 
@@ -103,19 +106,31 @@ remove(value)
     else
       parent.right ← nodeToRemove.right
     end if
-  else if nodeToRemove.left = ø and nodeToRemove.right = ø
-   if nodeToRemove.value < parent.value
-     parent.left ←  nodeToRemove.left
-   else
-     parent.right ← nodeToRemove.left
-   end if
+  else if nodeToRemove.left != ø and nodeToRemove.right != ø
+    next ← nodeToRemove.right
+    while next.left != ø
+      next ← next.left
+    end while
+    if next != nodeToRemove.right
+      remove(next.value)
+      nodeToRemove.value ← next.value
+    else
+      nodeToRemove.value ← next.value
+      nodeToRemove.right ← nodeToRemove.right.right
+    end if
   else
-   largestValue ← nodeToRemove.left
-   while largestValue.right = ø
-     largestValue ← largestValue.right
-   end while
-   findParent(largestValue.value).right ← ø
-   nodeToRemove.value ← largestValue.value
+    if nodeToRemove.left = ø
+      next ← nodeToRemove.right
+    else
+      next ← nodeToRemove.left
+    end if
+    if root = nodeToRemove
+      root = next
+    else if parent.left = nodeToRemove
+      parent.left = next
+    else if parent.right = nodeToRemove
+      parent.right = next
+    end if
   end if
   count ← count - 1
   return true
@@ -208,7 +223,7 @@ end findMax
 inorder(root)
   Pre: root is the root node of the BST
   Post: the nodes in the BST have been visited in inorder
-  if root = ø
+  if root != ø
     inorder(root.left)
     yield root.value
     inorder(root.right)
@@ -222,7 +237,7 @@ end inorder
 preorder(root)
   Pre: root is the root node of the BST
   Post: the nodes in the BST have been visited in preorder
-  if root = ø
+  if root != ø
     yield root.value
     preorder(root.left)
     preorder(root.right)
@@ -236,7 +251,7 @@ end preorder
 postorder(root)
   Pre: root is the root node of the BST
   Post: the nodes in the BST have been visited in postorder
-  if root = ø
+  if root != ø
     postorder(root.left)
     postorder(root.right)
     yield root.value
